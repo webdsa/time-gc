@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Direct Routes</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    .test-links {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    a {
+      padding: 0.5rem 1rem;
+      background: #f3f4f6;
+      border-radius: 0.25rem;
+      text-decoration: none;
+      color: #374151;
+    }
+    a:hover {
+      background: #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <h1>Test Direct Access to Routes</h1>
+  <p>Click these links to test direct access to specific routes:</p>
+  
+  <div class="test-links">
+    <a href="/brasilia" target="_blank">Test /brasilia</a>
+    <a href="/stlouis" target="_blank">Test /stlouis</a>
+  </div>
+  
+  <p>These links should open directly to their respective pages without going through the home page.</p>
+  
+  <script>
+    // Log a message to console when the page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log('Route test page loaded successfully.');
+    });
+  </script>
+</body>
+</html> 
