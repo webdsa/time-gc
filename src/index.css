@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-neutral-950 text-white font-sans antialiased;
+}
+
+.clock-container {
+  @apply flex items-center justify-center min-h-screen;
+}
+
+.clock-display {
+  @apply text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.separator {
+  @apply animate-pulse;
+}
