@@ -62,24 +62,24 @@ const Clock: React.FC<ClockProps> = ({
   const [hours, minutes, seconds] = time.split(':');
   
   const containerClasses = fullscreen 
-    ? "min-h-screen flex items-center justify-center relative"
+    ? "min-h-screen flex items-center justify-center relative p-4 sm:p-6 md:p-8"
     : "flex items-center justify-center";
 
   const timeClasses = fullscreen
-    ? "text-8xl md:text-[10rem] lg:text-[13.5rem] font-bold tracking-tight"
+    ? "text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[13.5rem] font-bold tracking-tight"
     : "text-4xl md:text-5xl font-bold tracking-tight";
 
   const cityNameClasses = fullscreen
-    ? "text-4xl md:text-5xl mb-8 text-neutral-600 dark:text-neutral-300 font-semibold"
+    ? "text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 sm:mb-6 md:mb-8 text-neutral-600 dark:text-neutral-300 font-semibold"
     : "text-xl mb-4 text-neutral-600 dark:text-neutral-400 font-semibold";
 
   const dateClasses = fullscreen
-    ? "text-2xl md:text-3xl mt-8 text-neutral-500 dark:text-neutral-400 font-medium"
+    ? "text-xl sm:text-xl md:text-2xl lg:text-3xl mt-4 sm:mt-6 md:mt-8 text-neutral-500 dark:text-neutral-400 font-medium"
     : "text-base mt-4 text-neutral-600 dark:text-neutral-500 font-medium";
   
   return (
     <div className={containerClasses}>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center max-w-full overflow-hidden">
         {label && (
           <h2 className="text-2xl md:text-3xl mb-8 text-neutral-600 dark:text-neutral-400 font-semibold">
             {getLocalizedLabel(label, language)}
@@ -94,9 +94,9 @@ const Clock: React.FC<ClockProps> = ({
         
         <div className={timeClasses}>
           <span className="text-neutral-700 dark:text-neutral-300">{hours}</span>
-          <span className="separator px-2 text-neutral-600 dark:text-neutral-500">:</span>
+          <span className="separator px-1 sm:px-2 text-neutral-600 dark:text-neutral-500">:</span>
           <span className="text-neutral-600 dark:text-neutral-400">{minutes}</span>
-          <span className="separator px-2 text-neutral-600 dark:text-neutral-500">:</span>
+          <span className="separator px-1 sm:px-2 text-neutral-600 dark:text-neutral-500">:</span>
           <span className="text-neutral-500 dark:text-neutral-500">{seconds}</span>
         </div>
         
