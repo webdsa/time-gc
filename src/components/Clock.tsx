@@ -66,15 +66,15 @@ const Clock: React.FC<ClockProps> = ({
     : "flex items-center justify-center";
 
   const timeClasses = fullscreen
-    ? "text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight"
+    ? "text-8xl md:text-[10rem] lg:text-[13.5rem] font-bold tracking-tight"
     : "text-4xl md:text-5xl font-bold tracking-tight";
 
   const cityNameClasses = fullscreen
-    ? "text-3xl md:text-4xl mb-6 text-neutral-600 dark:text-neutral-300 font-semibold"
+    ? "text-4xl md:text-5xl mb-8 text-neutral-600 dark:text-neutral-300 font-semibold"
     : "text-xl mb-4 text-neutral-600 dark:text-neutral-400 font-semibold";
 
   const dateClasses = fullscreen
-    ? "text-xl md:text-2xl mt-6 text-neutral-500 dark:text-neutral-400 font-medium"
+    ? "text-2xl md:text-3xl mt-8 text-neutral-500 dark:text-neutral-400 font-medium"
     : "text-base mt-4 text-neutral-600 dark:text-neutral-500 font-medium";
   
   return (
