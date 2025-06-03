@@ -154,7 +154,7 @@ const Home: React.FC = () => {
       </div>
       
       <h1 className="text-4xl md:text-6xl font-bold mb-12 text-center text-neutral-700 dark:text-neutral-300">
-        {getLocalizedHomeText("Multi-Timezone Clock", language)}
+        {getLocalizedHomeText("Multi-Timezones Clock", language)}
       </h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full mb-12">
