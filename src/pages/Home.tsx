@@ -2,8 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Clock as ClockIcon } from 'lucide-react';
 import Clock from '../components/Clock';
+import LanguageSelector from '../components/LanguageSelector';
+import { 
+  getLocalizedHomeText, 
+  getLocalizedCountry 
+} from '../i18n/translations';
+import { useLanguage } from '../context/LanguageContext';
 
 const Home: React.FC = () => {
+  const { language, setLanguage } = useLanguage();
+  
   const southAmericanClocks = [
     { country: 'Argentina', timezone: 'America/Argentina/Buenos_Aires' },
     { country: 'Bolivia', timezone: 'America/La_Paz' },
@@ -16,8 +24,17 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-neutral-900 to-neutral-950 p-4">
+      <div className="absolute top-4 right-4">
+        <LanguageSelector 
+          currentLanguage={language}
+          onLanguageChange={setLanguage}
+          minimal={true}
+          showLabels={false}
+        />
+      </div>
+      
       <h1 className="text-4xl md:text-6xl font-bold mb-12 text-center text-primary-300">
-        Multi-Timezone Clock
+        {getLocalizedHomeText("Multi-Timezone Clock", language)}
       </h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full mb-12">
@@ -31,7 +48,7 @@ const Home: React.FC = () => {
             to="/brasilia" 
             className="mt-8 px-6 py-2 text-sm font-medium text-primary-300 hover:text-primary-200 border border-primary-700 rounded-full hover:bg-primary-900/40 transition-all duration-300"
           >
-            View Fullscreen
+            {getLocalizedHomeText("View Fullscreen", language)}
           </Link>
         </div>
         
@@ -45,20 +62,20 @@ const Home: React.FC = () => {
             to="/stlouis" 
             className="mt-8 px-6 py-2 text-sm font-medium text-secondary-300 hover:text-secondary-200 border border-secondary-700 rounded-full hover:bg-secondary-900/40 transition-all duration-300"
           >
-            View Fullscreen
+            {getLocalizedHomeText("View Fullscreen", language)}
           </Link>
         </div>
       </div>
 
       <div className="w-full max-w-6xl px-4">
         <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-center text-primary-200">
-          South American Time Zones
+          {getLocalizedHomeText("South American Time Zones", language)}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {southAmericanClocks.map(({ country, timezone }) => (
             <div key={country} className="flex flex-col items-center p-6 rounded-xl bg-neutral-800/30 border border-neutral-800">
               <h3 className="text-xl font-semibold mb-4 text-primary-300">
-                {country}
+                {getLocalizedCountry(country, language)}
               </h3>
               <Clock timezone={timezone} />
             </div>
@@ -67,7 +84,7 @@ const Home: React.FC = () => {
       </div>
       
       <p className="mt-12 text-neutral-500 text-center max-w-lg">
-        Click "View Fullscreen" to see each clock in a distraction-free interface.
+        {getLocalizedHomeText("Click \"View Fullscreen\" to see each clock in a distraction-free interface.", language)}
       </p>
     </div>
   );
