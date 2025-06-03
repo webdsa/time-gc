@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock as ClockIcon, Sun, Moon } from 'lucide-react';
+import { Clock as ClockIcon, Sun, Moon, Monitor, Users, MapPin } from 'lucide-react';
 import Clock from '../components/Clock';
 import LanguageSelector from '../components/LanguageSelector';
 import { 
@@ -12,17 +12,93 @@ import { useTheme } from '../context/ThemeContext';
 
 const Home: React.FC = () => {
   const { language, setLanguage } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, systemPreference } = useTheme();
+  
+  // Estado para armazenar os grupos de países por fuso horário
+  const [timeGroups, setTimeGroups] = useState<Record<string, any[]>>({});
+  const [sortedTimes, setSortedTimes] = useState<string[]>([]);
+  
+  // Função para restaurar a preferência do sistema
+  const restoreSystemPreference = () => {
+    if (systemPreference && theme !== systemPreference) {
+      toggleTheme();
+    }
+  };
   
   const southAmericanClocks = [
-    { country: 'Argentina', timezone: 'America/Argentina/Buenos_Aires' },
-    { country: 'Bolivia', timezone: 'America/La_Paz' },
-    { country: 'Chile', timezone: 'America/Santiago' },
-    { country: 'Ecuador', timezone: 'America/Guayaquil' },
-    { country: 'Paraguay', timezone: 'America/Asuncion' },
-    { country: 'Peru', timezone: 'America/Lima' },
-    { country: 'Uruguay', timezone: 'America/Montevideo' },
+    { country: 'Argentina', code: 'AR', timezone: 'America/Argentina/Buenos_Aires' },
+    { country: 'Bolivia', code: 'BO', timezone: 'America/La_Paz' },
+    { country: 'Chile', code: 'CL', timezone: 'America/Santiago' },
+    { country: 'Ecuador', code: 'EC', timezone: 'America/Guayaquil' },
+    { country: 'Paraguay', code: 'PY', timezone: 'America/Asuncion' },
+    { country: 'Peru', code: 'PE', timezone: 'America/Lima' },
+    { country: 'Uruguay', code: 'UY', timezone: 'America/Montevideo' },
+    { country: 'Brazil', code: 'BR', timezone: 'America/Sao_Paulo' },
   ];
+
+  // Função para obter a hora atual em um fuso horário específico
+  const getCurrentTime = (timezone: string): string => {
+    const now = new Date();
+    const options: Intl.DateTimeFormatOptions = {
+      timeZone: timezone,
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    return now.toLocaleTimeString('en-US', options);
+  };
+
+  // Agrupar países por fuso horário
+  useEffect(() => {
+    const groupCountries = () => {
+      const groups: Record<string, any[]> = {};
+      
+      southAmericanClocks.forEach(clock => {
+        // Usar apenas hora e minuto como chave de agrupamento
+        const timeKey = getCurrentTime(clock.timezone);
+        
+        if (!groups[timeKey]) {
+          groups[timeKey] = [];
+        }
+        
+        groups[timeKey].push(clock);
+      });
+      
+      // Ordenar as chaves de tempo (convertendo para objeto Date para ordenação correta)
+      const times = Object.keys(groups);
+      times.sort((a, b) => {
+        const [hoursA, minutesA, periodA] = a.split(/:|\s/);
+        const [hoursB, minutesB, periodB] = b.split(/:|\s/);
+        
+        // Converter para formato 24h para ordenação
+        let hoursNumA = parseInt(hoursA);
+        let hoursNumB = parseInt(hoursB);
+        
+        if (periodA === 'PM' && hoursNumA !== 12) hoursNumA += 12;
+        if (periodA === 'AM' && hoursNumA === 12) hoursNumA = 0;
+        if (periodB === 'PM' && hoursNumB !== 12) hoursNumB += 12;
+        if (periodB === 'AM' && hoursNumB === 12) hoursNumB = 0;
+        
+        // Comparar horas
+        if (hoursNumA !== hoursNumB) {
+          return hoursNumA - hoursNumB;
+        }
+        
+        // Se horas iguais, comparar minutos
+        return parseInt(minutesA) - parseInt(minutesB);
+      });
+      
+      setTimeGroups(groups);
+      setSortedTimes(times);
+    };
+    
+    // Agrupar inicialmente
+    groupCountries();
+    
+    // Atualizar o agrupamento a cada minuto
+    const intervalId = setInterval(groupCountries, 60000);
+    
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
@@ -31,9 +107,23 @@ const Home: React.FC = () => {
           onClick={toggleTheme} 
           className="p-2 rounded-full bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors"
           aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
         </button>
+        
+        {/* Botão para restaurar preferência do sistema (apenas mostrado se diferente do tema atual) */}
+        {systemPreference && theme !== systemPreference && (
+          <button 
+            onClick={restoreSystemPreference} 
+            className="p-2 rounded-full bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors"
+            aria-label="Use system preference"
+            title={`Use system preference (${systemPreference} mode)`}
+          >
+            <Monitor size={20} />
+          </button>
+        )}
+        
         <LanguageSelector 
           currentLanguage={language}
           onLanguageChange={setLanguage}
@@ -78,15 +168,40 @@ const Home: React.FC = () => {
         <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-center text-neutral-600 dark:text-neutral-300">
           {getLocalizedHomeText("South American Time Zones", language)}
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {southAmericanClocks.map(({ country, timezone }) => (
-            <div key={country} className="flex flex-col items-center p-6 rounded-xl bg-white shadow-md dark:shadow-none dark:bg-opacity-10">
-              <h3 className="text-xl font-semibold mb-4 text-neutral-600 dark:text-neutral-300">
-                {getLocalizedCountry(country, language)}
-              </h3>
-              <Clock timezone={timezone} />
-            </div>
-          ))}
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Renderiza os grupos de países por fuso horário */}
+          {sortedTimes.map((time) => {
+            const clocks = timeGroups[time];
+            // Usar o primeiro timezone do grupo para o relógio
+            const representativeTimezone = clocks[0].timezone;
+            
+            return (
+              <div key={time} className="flex flex-col items-center p-6 rounded-xl bg-white shadow-md dark:shadow-none dark:bg-opacity-10">
+                <div className="flex items-center gap-2 mb-4">
+                  <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300 inline-flex items-center">
+                    <ClockIcon size={20} className="mr-2" />
+                    {time}
+                  </h3>
+                </div>
+                
+                <Clock timezone={representativeTimezone} />
+                
+                <div className="mt-6 flex flex-wrap gap-2 justify-center">
+                  {clocks.map((clock) => (
+                    <div 
+                      key={clock.country} 
+                      className="px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-sm font-medium flex items-center"
+                      title={getLocalizedCountry(clock.country, language)}
+                    >
+                      <MapPin size={14} className="mr-1 text-neutral-500 dark:text-neutral-400" />
+                      {clock.code}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
       

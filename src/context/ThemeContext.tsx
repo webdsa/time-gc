@@ -5,41 +5,64 @@ type Theme = 'light' | 'dark';
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  systemPreference: Theme | null;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
+  const [systemPreference, setSystemPreference] = useState<Theme | null>(null);
 
+  // Detectar preferência do sistema
   useEffect(() => {
-    // Check if user prefers dark mode
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(prefersDark ? 'dark' : 'light');
-    
-    // Listen for changes in color scheme preference
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      setTheme(e.matches ? 'dark' : 'light');
+    
+    const handleSystemPreferenceChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      const newSystemPreference = e.matches ? 'dark' : 'light';
+      setSystemPreference(newSystemPreference);
+      
+      // Se não houver tema salvo no localStorage, use a preferência do sistema
+      const savedTheme = localStorage.getItem('theme') as Theme | null;
+      if (!savedTheme) {
+        setTheme(newSystemPreference);
+      }
     };
     
-    mediaQuery.addEventListener('change', handleChange);
+    // Inicialização
+    handleSystemPreferenceChange(mediaQuery);
     
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    // Monitorar mudanças na preferência do sistema
+    const mediaQueryListener = (e: MediaQueryListEvent) => handleSystemPreferenceChange(e);
+    mediaQuery.addEventListener('change', mediaQueryListener);
+    
+    return () => mediaQuery.removeEventListener('change', mediaQueryListener);
   }, []);
 
-  // Apply theme to the document
+  // Carregar tema salvo do localStorage ao iniciar
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  // Aplicar tema ao documento e salvar no localStorage
   useEffect(() => {
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(theme);
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    setTheme(prev => {
+      const newTheme = prev === 'dark' ? 'light' : 'dark';
+      return newTheme;
+    });
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, systemPreference }}>
       {children}
     </ThemeContext.Provider>
   );
