@@ -3,18 +3,21 @@ import Home from './pages/Home';
 import BrasiliaClock from './pages/BrasiliaClock';
 import StLouisClock from './pages/StLouisClock';
 import { LanguageProvider } from './context/LanguageContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
   return (
-    <LanguageProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/brasilia" element={<BrasiliaClock />} />
-          <Route path="/stlouis" element={<StLouisClock />} />
-        </Routes>
-      </Router>
-    </LanguageProvider>
+    <ThemeProvider>
+      <LanguageProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/brasilia" element={<BrasiliaClock />} />
+            <Route path="/stlouis" element={<StLouisClock />} />
+          </Routes>
+        </Router>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 

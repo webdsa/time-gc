@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 body {
-  @apply bg-neutral-950 text-white font-sans antialiased;
+  @apply bg-white text-neutral-900 dark:text-white font-sans antialiased;
+  background-color: rgb(255, 255, 255);
+}
+
+.dark body {
+  background-color: rgb(25, 25, 25);
 }
 
 .clock-container {
@@ -12,6 +17,10 @@ body {
 
 .clock-display {
   @apply text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dark .clock-display {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
