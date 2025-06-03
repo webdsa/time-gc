@@ -33,7 +33,6 @@ const Home: React.FC = () => {
     { country: 'Paraguay', code: 'PY', timezone: 'America/Asuncion' },
     { country: 'Peru', code: 'PE', timezone: 'America/Lima' },
     { country: 'Uruguay', code: 'UY', timezone: 'America/Montevideo' },
-    { country: 'Brazil', code: 'BR', timezone: 'America/Sao_Paulo' },
   ];
 
   // Função para obter a hora atual em um fuso horário específico
@@ -178,13 +177,6 @@ const Home: React.FC = () => {
             
             return (
               <div key={time} className="flex flex-col items-center p-6 rounded-xl bg-white shadow-md dark:shadow-none dark:bg-opacity-10">
-                <div className="flex items-center gap-2 mb-4">
-                  <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300 inline-flex items-center">
-                    <ClockIcon size={20} className="mr-2" />
-                    {time}
-                  </h3>
-                </div>
-                
                 <Clock timezone={representativeTimezone} />
                 
                 <div className="mt-6 flex flex-wrap gap-2 justify-center">
