@@ -70,18 +70,18 @@ const Clock: React.FC<ClockProps> = ({
     : "text-4xl md:text-5xl font-bold tracking-tight";
 
   const cityNameClasses = fullscreen
-    ? "text-3xl md:text-4xl mb-6 text-primary-600 dark:text-primary-300 font-semibold"
-    : "text-xl mb-4 text-primary-600 dark:text-primary-400 font-semibold";
+    ? "text-3xl md:text-4xl mb-6 text-neutral-600 dark:text-neutral-300 font-semibold"
+    : "text-xl mb-4 text-neutral-600 dark:text-neutral-400 font-semibold";
 
   const dateClasses = fullscreen
-    ? "text-xl md:text-2xl mt-6 text-primary-500 dark:text-primary-400 font-medium"
-    : "text-base mt-4 text-primary-600 dark:text-primary-500 font-medium";
+    ? "text-xl md:text-2xl mt-6 text-neutral-500 dark:text-neutral-400 font-medium"
+    : "text-base mt-4 text-neutral-600 dark:text-neutral-500 font-medium";
   
   return (
     <div className={containerClasses}>
       <div className="flex flex-col items-center">
         {label && (
-          <h2 className="text-2xl md:text-3xl mb-8 text-primary-600 dark:text-primary-400 font-semibold">
+          <h2 className="text-2xl md:text-3xl mb-8 text-neutral-600 dark:text-neutral-400 font-semibold">
             {getLocalizedLabel(label, language)}
           </h2>
         )}
@@ -93,11 +93,11 @@ const Clock: React.FC<ClockProps> = ({
         )}
         
         <div className={timeClasses}>
-          <span className="text-primary-700 dark:text-primary-300">{hours}</span>
-          <span className="separator px-2 text-primary-600 dark:text-primary-500">:</span>
-          <span className="text-primary-600 dark:text-primary-200">{minutes}</span>
-          <span className="separator px-2 text-primary-600 dark:text-primary-500">:</span>
-          <span className="text-primary-500 dark:text-primary-100">{seconds}</span>
+          <span className="text-neutral-700 dark:text-neutral-300">{hours}</span>
+          <span className="separator px-2 text-neutral-600 dark:text-neutral-500">:</span>
+          <span className="text-neutral-600 dark:text-neutral-400">{minutes}</span>
+          <span className="separator px-2 text-neutral-600 dark:text-neutral-500">:</span>
+          <span className="text-neutral-500 dark:text-neutral-500">{seconds}</span>
         </div>
         
         {showDate && (

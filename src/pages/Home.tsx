@@ -40,34 +40,34 @@ const Home: React.FC = () => {
         />
       </div>
       
-      <h1 className="text-4xl md:text-6xl font-bold mb-12 text-center text-primary-600 dark:text-primary-300">
+      <h1 className="text-4xl md:text-6xl font-bold mb-12 text-center text-neutral-700 dark:text-neutral-300">
         {getLocalizedHomeText("Multi-Timezone Clock", language)}
       </h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full mb-12">
         <div className="flex flex-col items-center p-8 rounded-xl bg-white shadow-lg dark:shadow-none dark:bg-opacity-10 ">
-          <ClockIcon className="w-12 h-12 mb-4 text-primary-600 dark:text-primary-400" />
-          <h2 className="text-2xl font-semibold mb-6 text-primary-600 dark:text-primary-300">
+          <ClockIcon className="w-12 h-12 mb-4 text-neutral-600 dark:text-neutral-400" />
+          <h2 className="text-2xl font-semibold mb-6 text-neutral-600 dark:text-neutral-300">
             Brasília
           </h2>
           <Clock timezone="America/Sao_Paulo" />
           <Link 
             to="/brasilia" 
-            className="mt-8 px-6 py-2 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 border border-primary-400 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-all duration-300"
+            className="mt-8 px-6 py-2 text-sm font-medium text-neutral-600 hover:text-neutral-700 dark:text-neutral-300 dark:hover:text-neutral-200 border border-neutral-400 dark:border-neutral-700 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-300"
           >
             {getLocalizedHomeText("View Fullscreen", language)}
           </Link>
         </div>
         
         <div className="flex flex-col items-center p-8 rounded-xl bg-white shadow-lg dark:shadow-none dark:bg-opacity-10">
-          <ClockIcon className="w-12 h-12 mb-4 text-secondary-600 dark:text-secondary-400" />
-          <h2 className="text-2xl font-semibold mb-6 text-secondary-600 dark:text-secondary-300">
+          <ClockIcon className="w-12 h-12 mb-4 text-neutral-600 dark:text-neutral-400" />
+          <h2 className="text-2xl font-semibold mb-6 text-neutral-600 dark:text-neutral-300">
             St. Louis
           </h2>
           <Clock timezone="America/Chicago" />
           <Link 
             to="/stlouis" 
-            className="mt-8 px-6 py-2 text-sm font-medium text-secondary-600 hover:text-secondary-700 dark:text-secondary-300 dark:hover:text-secondary-200 border border-secondary-400 dark:border-secondary-700 rounded-full hover:bg-secondary-100 dark:hover:bg-secondary-900/40 transition-all duration-300"
+            className="mt-8 px-6 py-2 text-sm font-medium text-neutral-600 hover:text-neutral-700 dark:text-neutral-300 dark:hover:text-neutral-200 border border-neutral-400 dark:border-neutral-700 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-300"
           >
             {getLocalizedHomeText("View Fullscreen", language)}
           </Link>
@@ -75,13 +75,13 @@ const Home: React.FC = () => {
       </div>
 
       <div className="w-full max-w-6xl px-4">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-center text-primary-500 dark:text-primary-200">
+        <h2 className="text-2xl md:text-3xl font-semibold mb-8 text-center text-neutral-600 dark:text-neutral-300">
           {getLocalizedHomeText("South American Time Zones", language)}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {southAmericanClocks.map(({ country, timezone }) => (
             <div key={country} className="flex flex-col items-center p-6 rounded-xl bg-white shadow-md dark:shadow-none dark:bg-opacity-10">
-              <h3 className="text-xl font-semibold mb-4 text-primary-600 dark:text-primary-300">
+              <h3 className="text-xl font-semibold mb-4 text-neutral-600 dark:text-neutral-300">
                 {getLocalizedCountry(country, language)}
               </h3>
               <Clock timezone={timezone} />
