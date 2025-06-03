@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Monitor, ArrowLeft, MapPin, Globe } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import { Monitor, MapPin } from 'lucide-react';
 import Clock from '../components/Clock';
 import { useTheme } from '../context/ThemeContext';
 import { getLocalizedCountry, formatLocalizedDate, getTranslation, getLocalizedHomeText } from '../i18n/translations';
@@ -200,16 +200,6 @@ const TimezoneClock = () => {
   
   return (
     <div className="relative w-full h-screen overflow-hidden bg-white dark:bg-[#191919]">
-      {/* Botão para voltar à página inicial */}
-      <Link
-        to="/"
-        className="absolute top-4 left-4 p-2 rounded-full bg-white dark:bg-[rgba(50,50,50,0.5)] text-neutral-800 dark:text-neutral-200 hover:bg-neutral-300 dark:hover:bg-[rgba(70,70,70,0.7)] transition-colors z-10"
-        aria-label="Voltar para a página inicial"
-        title="Voltar para a página inicial"
-      >
-        <ArrowLeft size={20} />
-      </Link>
-      
       {/* Botão para restaurar preferência do sistema (apenas mostrado se diferente do tema atual) */}
       {systemPreference && theme !== systemPreference && (
         <button 
@@ -232,21 +222,8 @@ const TimezoneClock = () => {
             <span className="text-neutral-500 dark:text-neutral-500">{seconds}</span>
           </div>
           
-          {/* Data */}
-          <p className="text-xl sm:text-xl md:text-2xl lg:text-3xl mt-4 sm:mt-6 md:mt-8 text-neutral-500 dark:text-neutral-400 font-medium">
-            {date}
-          </p>
-          
-          {/* Título para países que compartilham este fuso horário */}
-          <div className="mt-8 mb-3 flex items-center justify-center text-neutral-600 dark:text-neutral-400">
-            <Globe size={18} className="mr-2" />
-            <span className="text-sm sm:text-base font-medium">
-              {getLocalizedHomeText("Countries in this timezone", language)}
-            </span>
-          </div>
-          
-          {/* Países logo abaixo da data */}
-          <div className="flex flex-wrap gap-2 justify-center max-w-md">
+          {/* Países */}
+          <div className="flex flex-wrap gap-2 justify-center max-w-md mt-8">
             {timezoneData.countries.map((country) => (
               <div 
                 key={country.country} 
