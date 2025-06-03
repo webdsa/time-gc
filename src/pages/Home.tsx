@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Clock as ClockIcon, Sun, Moon, Monitor, Users, MapPin } from 'lucide-react';
 import Clock from '../components/Clock';
 import LanguageSelector from '../components/LanguageSelector';
@@ -13,6 +13,7 @@ import { useTheme } from '../context/ThemeContext';
 const Home: React.FC = () => {
   const { language, setLanguage } = useLanguage();
   const { theme, toggleTheme, systemPreference } = useTheme();
+  const navigate = useNavigate();
   
   // Estado para armazenar os grupos de países por fuso horário
   const [timeGroups, setTimeGroups] = useState<Record<string, any[]>>({});
@@ -44,6 +45,29 @@ const Home: React.FC = () => {
       minute: '2-digit',
     };
     return now.toLocaleTimeString('en-US', options);
+  };
+  
+  // Função para gerar um ID único para cada fuso horário
+  const generateTimezoneId = (timezone: string): string => {
+    // Converter para lowercase e substituir "/" por "_" para criar um ID seguro para URL
+    return timezone.toLowerCase().replace(/\//g, '_');
+  };
+  
+  // Função para navegar para a página do relógio em tela cheia
+  const navigateToFullscreen = (timezone: string, clocks: any[]) => {
+    // Armazenar os dados do grupo de fuso horário no sessionStorage
+    const timezoneData = {
+      timezone,
+      countries: clocks.map(c => ({ 
+        country: c.country, 
+        code: c.code,
+        timezone: c.timezone 
+      }))
+    };
+    sessionStorage.setItem('timezone_data', JSON.stringify(timezoneData));
+    
+    // Navegar para a página do relógio em tela cheia
+    navigate(`/timezone/${generateTimezoneId(timezone)}`);
   };
 
   // Agrupar países por fuso horário
@@ -176,7 +200,11 @@ const Home: React.FC = () => {
             const representativeTimezone = clocks[0].timezone;
             
             return (
-              <div key={time} className="flex flex-col items-center p-6 rounded-xl bg-white shadow-md dark:shadow-none dark:bg-opacity-10">
+              <div 
+                key={time} 
+                className="flex flex-col items-center p-6 rounded-xl bg-white shadow-md dark:shadow-none dark:bg-opacity-10 cursor-pointer hover:shadow-lg dark:hover:bg-opacity-20 transition-all duration-300"
+                onClick={() => navigateToFullscreen(representativeTimezone, clocks)}
+              >
                 <Clock timezone={representativeTimezone} />
                 
                 <div className="mt-6 flex flex-wrap gap-2 justify-center">
@@ -190,6 +218,10 @@ const Home: React.FC = () => {
                       {clock.code}
                     </div>
                   ))}
+                </div>
+                
+                <div className="mt-4 text-sm text-neutral-500 dark:text-neutral-400">
+                  {getLocalizedHomeText("Click to view fullscreen", language)}
                 </div>
               </div>
             );

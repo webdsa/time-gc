@@ -93,6 +93,16 @@ export const homeTranslations: { [key: string]: { [key: string]: string } } = {
     en: "Click \"View Fullscreen\" to see each clock in a distraction-free interface.",
     pt: "Clique em \"Ver em Tela Cheia\" para ver cada relógio em uma interface sem distrações.",
     es: "Haga clic en \"Ver en Pantalla Completa\" para ver cada reloj en una interfaz sin distracciones."
+  },
+  "Click to view fullscreen": {
+    en: "Click to view fullscreen",
+    pt: "Clique para ver em tela cheia",
+    es: "Clic para ver en pantalla completa"
+  },
+  "Countries in this timezone": {
+    en: "Countries in this timezone",
+    pt: "Países neste fuso horário",
+    es: "Países en esta zona horaria"
   }
 };
 
@@ -108,15 +118,40 @@ export const countryTranslations: { [key: string]: { [key: string]: string } } =
     pt: "Bolívia",
     es: "Bolivia"
   },
+  "Brazil": {
+    en: "Brazil",
+    pt: "Brasil",
+    es: "Brasil"
+  },
   "Chile": {
     en: "Chile",
     pt: "Chile",
     es: "Chile"
   },
+  "Colombia": {
+    en: "Colombia",
+    pt: "Colômbia",
+    es: "Colombia"
+  },
   "Ecuador": {
     en: "Ecuador",
     pt: "Equador",
     es: "Ecuador"
+  },
+  "Falkland Islands": {
+    en: "Falkland Islands",
+    pt: "Ilhas Malvinas",
+    es: "Islas Malvinas"
+  },
+  "French Guiana": {
+    en: "French Guiana",
+    pt: "Guiana Francesa",
+    es: "Guayana Francesa"
+  },
+  "Guyana": {
+    en: "Guyana",
+    pt: "Guiana",
+    es: "Guyana"
   },
   "Paraguay": {
     en: "Paraguay",
@@ -128,10 +163,20 @@ export const countryTranslations: { [key: string]: { [key: string]: string } } =
     pt: "Peru",
     es: "Perú"
   },
+  "Suriname": {
+    en: "Suriname",
+    pt: "Suriname",
+    es: "Surinam"
+  },
   "Uruguay": {
     en: "Uruguay",
     pt: "Uruguai",
     es: "Uruguay"
+  },
+  "Venezuela": {
+    en: "Venezuela",
+    pt: "Venezuela",
+    es: "Venezuela"
   }
 };
 
